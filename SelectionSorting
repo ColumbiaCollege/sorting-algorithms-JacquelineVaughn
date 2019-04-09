@@ -1,0 +1,52 @@
+////Selection Sort
+////Based on your selection sort video on YouTube
+int numberOfColumns = 100;  //self explanitory
+float x =1; //the x value of the rectangles
+int [] columns = new int [numberOfColumns]; //column string
+int step =0; //the amount each column jumps in height
+
+void setup(){
+  size(3500,1900); //window size
+  for(int i=0; i<columns.length; i++){ //continuously creates more columns with random, increasing heights
+    columns[i] = int(random(height));
+  }
+  frameRate(10);
+}
+void draw(){
+  makeRectangles(); //calls the method to make rectangles
+  if(step<numberOfColumns){ //if the number of steps made is less than the amount of desired columns, create new columns, increasing in height
+    selectionSortStep();
+  }
+}
+void selectionSortStep(){ //makes the step increase the number of columns{
+  int smallSpot = step;
+  for(int j =step; j<columns.length; j++){
+    if(columns[smallSpot]>columns[j]){
+      smallSpot =j;
+    }
+  }
+  int temp = columns[smallSpot];
+  columns[smallSpot] = columns[step];
+  columns[step] = temp;
+  step++;
+}//} all that increases the number of columns
+void makeRectangles(){
+  background(#FF6F00);
+  //defines the x value of the rectangles as constantly increasing
+  x = width/numberOfColumns;
+  //actually makes the rectangles be a different color
+  for(int i=0; i<columns.length; i++){
+    if(i<step){
+      fill(0);
+      stroke(5);
+      fill(#BC94FF);
+    }
+    //makes the rectangles invisible until they have been sorted
+    else{
+      noStroke();
+      fill(#FF6F00);
+    }
+    //the rectangle coordinates
+      rect(i*x, height - columns[i], x, columns[i]);
+    }
+}
